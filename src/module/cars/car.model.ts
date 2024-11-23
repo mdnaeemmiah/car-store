@@ -15,7 +15,9 @@ const CarSchema = new Schema<ICar>({
     description: { type: String, required: true },
     quantity: { type: Number, required: true, min: 0 },
     inStock: { type: Boolean, required: true },
-  });
+    
+  },
+  { timestamps: true });
 
   const Car = model<ICar>("Car",CarSchema)
 

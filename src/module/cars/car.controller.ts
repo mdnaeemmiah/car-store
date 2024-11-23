@@ -24,8 +24,21 @@ const creteCar = async (req: Request, res: Response) => {
 
 const getCar = async (req: Request, res: Response) => {
   try {
-    const result = await carService.getCar()
+   
+    const {searchText} = req.query;
 
+    const query = {
+      $and: [
+        { brand: { $regex: String(searchText), $options: "i" } },
+        { model: { $regex: String(searchText), $options: "i" } },  // Add more conditions for other properties
+        { category: { $regex: String(searchText), $options: "i" } },  // Add more conditions for other properties
+      ],
+    };
+
+
+    
+    const result = await carService.getCar()
+    
     res.send({
       message: 'car get successfully',
       success: true,
@@ -42,8 +55,8 @@ const getCar = async (req: Request, res: Response) => {
 }
 const getSingleCar = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.userId
-    const result = await carService.getSingleCar(userId)
+    const {carId} = req.params;
+    const result = await carService.getSingleCar(carId)
 
     res.send({
       message: 'single car get successfully',
@@ -61,9 +74,9 @@ const getSingleCar = async (req: Request, res: Response) => {
 }
 const updateCar = async (req: Request, res: Response) => {
   try {
-    const userId= req.params.userId
+    const carId= req.params.carId
     const body=req.body
-    const result = await carService.updateCar(userId,body)
+    const result = await carService.updateCar(carId,body)
 
     res.send({
       message: 'updated car successfully',
@@ -81,8 +94,8 @@ const updateCar = async (req: Request, res: Response) => {
 }
 const deleteCar = async (req: Request, res: Response) => {
   try {
-    const userId= req.params.userId
-    const result = await carService.deleteCar(userId)
+    const carId= req.params.carId
+    const result = await carService.deleteCar(carId)
 
     res.send({
       message: 'deleted car successfully',
@@ -98,6 +111,11 @@ const deleteCar = async (req: Request, res: Response) => {
     })
   }
 }
+
+
+
+
+
 
 export const carController = {
   creteCar,
