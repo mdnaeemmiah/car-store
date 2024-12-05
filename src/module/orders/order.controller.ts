@@ -30,6 +30,7 @@ const creteOrder = async (req: Request, res: Response) => {
 
       // Step 4: Update car inventory
       car.quantity -= quantity;
+      console.log(car);
       if (car.quantity === 0) {
           car.inStock = false;
       }
