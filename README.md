@@ -46,8 +46,8 @@ Features:
 
 -> GET /api/cars: Get all cars or filter by search term.
 -> POST /api/cars: Add a new car (admin only).
--> PUT /api/cars/:id: Update car details (admin only).
--> DELETE /api/cars/:id: Delete a car (admin only).
+-> PUT /api/cars/:carId: Update car details (admin only).
+-> DELETE /api/cars/:carId: Delete a car (admin only).
 
 
 2. Order Endpoints

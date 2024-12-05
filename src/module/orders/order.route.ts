@@ -4,7 +4,7 @@ import { orderController } from "./order.controller";
 
 const orderRoute =Router()
 
-orderRoute.post('/create-order',orderController.creteOrder)
+orderRoute.post('/',orderController.creteOrder)
 orderRoute.get('/revenue', orderController.getRevenue);
 orderRoute.get('/',orderController.getOrder)
 

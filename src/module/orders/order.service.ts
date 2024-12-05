@@ -7,7 +7,6 @@ const creteOrder = async (payload: IOrder) => {
 }
 
 
-
 const getOrder = async () => {
   const result = await Order.find()
   return result

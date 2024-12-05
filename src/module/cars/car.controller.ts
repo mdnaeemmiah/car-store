@@ -30,8 +30,8 @@ const getCar = async (req: Request, res: Response) => {
     const query = {
       $and: [
         { brand: { $regex: String(searchText), $options: "i" } },
-        { model: { $regex: String(searchText), $options: "i" } },  // Add more conditions for other properties
-        { category: { $regex: String(searchText), $options: "i" } },  // Add more conditions for other properties
+        { model: { $regex: String(searchText), $options: "i" } },  
+        { category: { $regex: String(searchText), $options: "i" } },  
       ],
     };
 
