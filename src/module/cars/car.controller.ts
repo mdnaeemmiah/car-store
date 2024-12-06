@@ -5,7 +5,7 @@ const creteCar = async (req: Request, res: Response) => {
   try {
     const payload = req.body
 
-    const result = await carService.creteCar(payload)
+    const result = await carService.creteCarIntoDB(payload)
 
     res.send({
       message: 'car create successfully',

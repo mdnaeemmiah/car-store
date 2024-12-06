@@ -1,7 +1,7 @@
 import { ICar } from './car.interface'
 import Car from './car.model'
 
-const creteCar = async (payload: ICar) => {
+const creteCarIntoDB = async (payload: ICar) => {
   const result = await Car.create(payload)
   return result
 }
@@ -26,7 +26,7 @@ const deleteCar = async (id: string) => {
 }
 
 export const carService = {
-  creteCar,
+  creteCarIntoDB,
   getCar,
   getSingleCar,
   updateCar,
