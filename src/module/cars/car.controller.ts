@@ -3,9 +3,9 @@ import { carService } from './car.service'
 
 const creteCar = async (req: Request, res: Response) => {
   try {
-    const payload = req.body
+    const carsName = req.body
 
-    const result = await carService.creteCarIntoDB(payload)
+    const result = await carService.creteCarIntoDB(carsName)
 
     res.send({
       message: 'car create successfully',
