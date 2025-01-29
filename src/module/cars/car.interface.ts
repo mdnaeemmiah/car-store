@@ -1,5 +1,4 @@
 
-
 export interface ICar {
     brand: string; 
     model: string; 
@@ -8,7 +7,8 @@ export interface ICar {
     category: "Sedan" | "SUV" | "Truck" | "Coupe" | "Convertible";
     description: string; 
     quantity: number; 
-    inStock: boolean; 
+    stock: number;
+    imageUrl?: string;
     createdAt?: Date;
     updatedAt?: Date;
   }

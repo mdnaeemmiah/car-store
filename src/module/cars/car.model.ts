@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { ICar } from "./car.interface";
 
 
@@ -14,11 +14,12 @@ const CarSchema = new Schema<ICar>({
     },
     description: { type: String, required: true },
     quantity: { type: Number, required: true, min: 0 },
-    inStock: { type: Boolean, required: true },
-    
+    stock: { type: Number, required: true, default: 0 },
+    imageUrl: { type: String },
   },
-  { timestamps: true });
+  { timestamps: true },
+);
 
-  const Car = model<ICar>("Car",CarSchema)
+  const Car = mongoose.model<ICar>("Car",CarSchema)
 
   export default Car;

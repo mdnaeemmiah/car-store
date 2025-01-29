@@ -1,11 +1,15 @@
 import { Router } from "express";
 import { orderController } from "./order.controller";
+import auth from "../../middlewares/auth";
+import { USER_ROLE } from "../user/user.contant";
 
+const orderRouter = Router();
 
-const orderRoute =Router()
+orderRouter.get("/verify", auth(USER_ROLE.user), orderController.verifyPayment);
 
-orderRoute.post('/',orderController.creteOrder)
-orderRoute.get('/revenue', orderController.getRevenue);
-orderRoute.get('/',orderController.getOrder)
+orderRouter
+  .route("/")
+  .post(auth(USER_ROLE.user), orderController.createOrder)
+  .get(auth(USER_ROLE.user), orderController.getOrders);
 
-export default orderRoute;
+export default orderRouter;

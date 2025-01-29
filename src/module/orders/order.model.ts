@@ -1,23 +1,50 @@
-import  { model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { IOrder } from "./order.interface";
 
-
-const OrderSchema = new Schema<IOrder>({
-    email: { type: String, required: true },
-    carId: { type:Schema.Types.ObjectId, ref: "Car", required: true }, 
-    quantity: { type: Number, required: true, min: 1 }, 
-    totalPrice: { type: Number, required: true }, 
+const OrderSchema = new Schema<IOrder>(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    products: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "Car",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["Pending", "Paid", "Shipped", "Completed", "Cancelled"],
+      default: "Pending",
+    },
+    transaction: {
+      id: String,
+      transactionStatus: String,
+      bank_status: String,
+      sp_code: String,
+      sp_message: String,
+      method: String,
+      date_time: String,
+    },
   },
-  { timestamps: true });
+  {
+    timestamps: true,
+  }
+);
 
+const Order = model<IOrder>("Order", OrderSchema);
 
-  // calculate total revenue using mongoose middleware
-  // OrderSchema.pre('save',async function(next){
-  //   this.totalPrice=this.totalPrice*this.quantity;
-  //   next()
-  // })
-
-
-  const Order = model<IOrder>("Order",OrderSchema)
-
-  export default Order;
+export default Order;

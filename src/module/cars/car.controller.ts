@@ -1,126 +1,63 @@
 import { Request, Response } from 'express'
-import { carService } from './car.service'
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { StatusCodes } from 'http-status-codes';
+import { carService } from './car.service';
 
-const creteCar = async (req: Request, res: Response) => {
-  try {
-    const carsName = req.body
 
-    const result = await carService.creteCarIntoDB(carsName)
+export const creteCar = catchAsync(async (req: Request, res: Response) => {
+  const productData = req.body;
+  const newProduct = await carService.creteCarIntoDB(productData);
+  sendResponse(res, {
+    success:true,
+    statusCode: StatusCodes.CREATED,
+    message: "Car created successfully",
+    data: newProduct,
+  });
+});
 
-    res.send({
-      message: 'car create successfully',
-      success: true,
-      data: result,
-    })
-  } catch (err: any) {
-    res.status(err.status || 500).send({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err.name || 'Error',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    })
+
+export const getAllCar = catchAsync(
+  async (req: Request, res: Response) => {
+    const products = await carService.getCar();
+    sendResponse(res, {
+      success:true,
+      statusCode: StatusCodes.OK,
+      message: "Cars retrieved successfully",
+      data: products,
+    });
   }
-}
+);
 
-const getCar = async (req: Request, res: Response) => {
-  try {
-   
-    const {searchText} = req.query;
+export const getSingleCar = catchAsync(
+  async (req: Request, res: Response) => {
+    const productId = req.params.id;
+    const product = await carService.getSingleCar(productId);
 
-    const query = {
-      $and: [
-        { brand: { $regex: String(searchText), $options: "i" } },
-        { model: { $regex: String(searchText), $options: "i" } },  
-        { category: { $regex: String(searchText), $options: "i" } },  
-      ],
-    };
-
-
-    
-    const result = await carService.getCar()
-    
-    res.send({
-      message: 'car get successfully',
-      success: true,
-      data: result,
-    })
-  } catch (err: any) {
-    res.status(err.status || 500).send({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err.name || 'Error',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    })
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success:true,
+      message: "Car retrieved successfully",
+      data: product,
+    });
   }
-}
-const getSingleCar = async (req: Request, res: Response) => {
-  try {
-    const {carId} = req.params;
-    const result = await carService.getSingleCar(carId)
+);
 
-    res.send({
-      message: 'single car get successfully',
-      success: true,
-      data: result,
-    })
-  } catch (err: any) {
-    res.status(err.status || 500).send({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err.name || 'Error',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    })
-  }
-}
-const updateCar = async (req: Request, res: Response) => {
-  try {
-    const carId= req.params.carId
-    const body=req.body
-    const result = await carService.updateCar(carId,body)
-
-    res.send({
-      message: 'updated car successfully',
-      success: true,
-      data: result,
-    })
-  } catch (err: any) {
-    res.status(err.status || 500).send({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err.name || 'Error',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    })
-  }
-}
-const deleteCar = async (req: Request, res: Response) => {
-  try {
-    const carId= req.params.carId
-    const result = await carService.deleteCar(carId)
-
-    res.send({
-      message: 'deleted car successfully',
-      success: true,
-      data: result,
-    })
-  } catch (err: any) {
-    res.status(err.status || 500).send({
-      success: false,
-      message: err.message || 'Something went wrong',
-      error: err.name || 'Error',
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-    })
-  }
-}
-
-
-
-
+export const deleteCar = catchAsync(async (req: Request, res: Response) => {
+  const productId = req.params.id;
+  const deleted = await carService.deleteCar(productId);
+  sendResponse(res, {
+    success:true,
+    statusCode: StatusCodes.OK,
+    message: "Car deleted successfully",
+    data: deleted,
+  });
+});
 
 
 export const carController = {
   creteCar,
-  getCar,
+  getAllCar,
   getSingleCar,
-  updateCar,
   deleteCar
 }
