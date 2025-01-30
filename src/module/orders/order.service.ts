@@ -71,10 +71,10 @@ const createOrder = async (
     throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Payment failed");
   });
 
-  console.log("Payment Response:", payment);
+  // console.log("Payment Response:", payment);
 
   if (!payment?.checkout_url) {
-    console.error("Payment did not return a checkout URL", payment);
+    // console.error("Payment did not return a checkout URL", payment);
     throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Payment did not return a checkout URL");
   }
 

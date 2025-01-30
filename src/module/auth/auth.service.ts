@@ -10,8 +10,30 @@ import { createToken, verifyToken } from './auth.utils'
 
 const register = async (payload: IUser) => {
   const user = new User(payload);
-  console.log(user)
-  return user;
+  console.log(user);
+  
+  const jwtPayload = {
+    role: user.role,  
+    email: user.email,  // Assuming email is unique and used as the user identifier
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string,
+  );
+
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string,
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+    needsPasswordChange: user?.needsPasswordChange,
+  };
 }
 
 const login = async (payload: TLoginUser) => {

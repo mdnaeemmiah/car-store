@@ -8,7 +8,7 @@ const createOrder = catchAsync(async (req, res) => {
 
   console.log(user);
   const order = await orderService.createOrder(user, req.body, req.ip!);
-   console.log(order,'naeem')
+  //  console.log(order,'naeem')
   sendResponse(res, {
     success:true,
     statusCode: httpStatus.CREATED,
