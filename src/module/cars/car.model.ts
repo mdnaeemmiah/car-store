@@ -16,10 +16,11 @@ const CarSchema = new Schema<ICar>({
     quantity: { type: Number, required: true, min: 0 },
     stock: { type: Number, required: true, default: 0 },
     imageUrl: { type: String },
+    delete:{type:Boolean,default:false}
   },
   { timestamps: true },
 );
 
-  const Car = mongoose.model<ICar>("Car",CarSchema)
+const Car = mongoose.model<ICar>("Car",CarSchema)
 
   export default Car;

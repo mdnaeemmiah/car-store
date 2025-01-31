@@ -132,8 +132,18 @@ const verifyPayment = async (order_id: string) => {
   return verifiedPayment;
 };
 
+
+const changeStatus = async (id: string, payload: { status: string }) => {
+  const result = await Order.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
+};
+
+
 export const orderService = {
   createOrder,
   getOrders,
   verifyPayment,
+  changeStatus
 };

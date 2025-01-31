@@ -29,10 +29,13 @@ const updateUser = async (id: string, data: IUser) => {
   return result
 }
 
+
 const deleteUser = async (id: string) => {
   const result = await User.findByIdAndDelete(id)
   return result
 }
+
+
 const changeStatus = async (id: string, payload: { status: string }) => {
   const result = await User.findByIdAndUpdate(id, payload, {
     new: true,

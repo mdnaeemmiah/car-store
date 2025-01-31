@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router.patch('/users/:id/block', AdminControllers.blockUser); 
-router.delete('/blogs/:id', AdminControllers.deleteBlog);
+router.delete('/cars/:id', AdminControllers.deleteCar);
 router.get('/',
     AdminControllers.getAllAdmins,
   );

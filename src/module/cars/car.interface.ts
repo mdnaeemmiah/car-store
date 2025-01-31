@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 
 export interface ICar {
     brand: string; 
@@ -8,6 +9,7 @@ export interface ICar {
     description: string; 
     quantity: number; 
     stock: number;
+    delete?:boolean;
     imageUrl?: string;
     createdAt?: Date;
     updatedAt?: Date;

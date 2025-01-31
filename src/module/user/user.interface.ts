@@ -10,8 +10,8 @@ export interface IUser {
     password: string;
     role: 'user' | 'admin';
     phone?: string;
-  address?: string;
-  city?: string;
+    address?: string;
+    city?: string;
     needsPasswordChange: boolean;
     passwordChangedAt?: Date;
     status: 'in-progress' | 'blocked';

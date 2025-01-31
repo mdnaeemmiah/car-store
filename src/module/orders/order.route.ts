@@ -5,7 +5,8 @@ import { USER_ROLE } from "../user/user.contant";
 
 const orderRouter = Router();
 
-orderRouter.get("/verify", auth(USER_ROLE.user), orderController.verifyPayment);
+orderRouter.get("/verify",auth(USER_ROLE.user),  orderController.verifyPayment);
+orderRouter.patch("/:id",  orderController.changeStatus);
 
 orderRouter
   .route("/")

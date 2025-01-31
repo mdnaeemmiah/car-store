@@ -11,12 +11,12 @@ const userRouter = Router()
 
 userRouter.post('/create-admin', userController.createAdmin)
 userRouter.get('/:userId', userController.getSingleUser)
-userRouter.patch('/:userId', userController.updateUser)
-userRouter.delete('/:userId', userController.deleteUser)
+userRouter.patch('/:id', userController.updateUser)
+userRouter.delete('/:id', userController.deleteUser)
 userRouter.get('/',userController.getUser)
-userRouter.post(
+userRouter.patch(
     '/change-status/:id',
-    auth( USER_ROLE.admin),
+    // auth( USER_ROLE.admin),
     validateRequest(UserValidation.changeStatusValidationSchema),
     userController.changeStatus,
   );

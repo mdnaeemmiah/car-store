@@ -1,7 +1,10 @@
+import { StatusCodes } from "http-status-codes";
+import AppError from "../../errors/AppError";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { orderService } from "./order.service";
 import httpStatus from "http-status";
+import Order from "./order.model";
 
 const createOrder = catchAsync(async (req, res) => {
   const user = req.user;
@@ -39,4 +42,27 @@ const verifyPayment = catchAsync(async (req, res) => {
   });
 });
 
-export const orderController = { createOrder, verifyPayment, getOrders };
+
+const changeStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+
+  const updatedOrder = await Order.findByIdAndUpdate(
+    id,
+    { status }, // Update the status
+    { new: true } // Return the updated document
+  );
+
+
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Status updated successfully',
+    data: updatedOrder,
+  });
+});
+
+
+export const orderController = { createOrder, verifyPayment, getOrders,changeStatus };

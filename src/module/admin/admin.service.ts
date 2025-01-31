@@ -21,7 +21,7 @@ const blockUser = async (id: string, data: IUser) => {
     return result
   };
 
-  const deleteBlog = async (id: string) => {
+  const deleteCar = async (id: string) => {
  
     const result = await Order.findByIdAndDelete(id);
     return result;
@@ -30,7 +30,7 @@ const blockUser = async (id: string, data: IUser) => {
 
 
 export const AdminServices = {
-    deleteBlog,
+    deleteCar,
     blockUser,
     getAllAdminsFromDB
 };

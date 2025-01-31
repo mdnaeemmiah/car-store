@@ -17,9 +17,9 @@ const blockUser = catchAsync(async (req, res) => {
   });
   });
   
-const deleteBlog = catchAsync(async (req, res) => {
+const deleteCar = catchAsync(async (req, res) => {
   const id = req.params.id;
-  await AdminServices.deleteBlog(id);
+  await AdminServices.deleteCar(id);
 
   sendResponse(res, {
     statusCode: StatusCodes.OK,
@@ -42,7 +42,7 @@ const getAllAdmins = catchAsync(async (req, res) => {
 
 
 export const AdminControllers = {
-  deleteBlog,
+  deleteCar,
   blockUser,
   getAllAdmins
 };
