@@ -7,94 +7,6 @@ import Car from "../cars/car.model";
 import { Document } from "mongoose";
 import { IOrder } from "./order.interface";
 
-const createOrder = async (
-  user: IUser,
-  payload: { products: { product: string; quantity: number }[] },
-  client_ip: string
-) => {
-  if (!payload?.products?.length) {
-    throw new AppError(httpStatus.NOT_ACCEPTABLE, "Order is not specified");
-  }
-
-  const products = payload.products;
-  let totalPrice = 0;
-
-  const productDetails = await Promise.all(
-    products.map(async (item) => {
-      if (!item.product) {
-        throw new AppError(httpStatus.BAD_REQUEST, "Product is required");
-      }
-
-      const product = await Car.findById(item.product);
-
-      if (!product) {
-        throw new AppError(httpStatus.NOT_FOUND, `Product with ID ${item.product} not found`);
-      }
-
-      const subtotal = (product.price || 0) * item.quantity;
-      totalPrice += subtotal;
-
-      return {
-        product: product._id,
-        quantity: item.quantity,
-      };
-    })
-  );
-
-  const validProductDetails = productDetails.filter((item) => item !== null);
-
-  if (!validProductDetails.length) {
-    throw new AppError(httpStatus.NOT_ACCEPTABLE, "No valid products found");
-  }
-
-  const order = await Order.create({
-    user,
-    products: validProductDetails,
-    totalPrice,
-  });
-
-  // Ensure the required fields are included
-  const shurjopayPayload = {
-    amount: totalPrice,
-    order_id: order._id,
-    currency: "BDT",
-    customer_name: user.name,
-    customer_email: user.email,
-    client_ip,
-    customer_address: user.address,  // Ensure user has an address
-    customer_phone: user.phone,      // Ensure user has a phone
-    customer_city: user.city,        // Ensure user has a city
-  };
-
-  const payment = await orderUtils.makePaymentAsync(shurjopayPayload).catch((err) => {
-    console.error("Payment Error:", err);
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Payment failed");
-  });
-
-  // console.log("Payment Response:", payment);
-
-  if (!payment?.checkout_url) {
-    // console.error("Payment did not return a checkout URL", payment);
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Payment did not return a checkout URL");
-  }
-
-  if (payment.transactionStatus) {
-    await Order.updateOne(
-      { _id: order._id },
-      {
-        $set: {
-          transaction: {
-            id: payment.sp_order_id,
-            transactionStatus: payment.transactionStatus,
-          },
-        },
-      }
-    );
-  }
-
-  return payment.checkout_url;
-};
-
 
 
 const getOrders = async () => {
@@ -143,7 +55,7 @@ const changeStatus = async (id: string, payload: { status: string }) => {
 
 
 export const orderService = {
-  createOrder,
+  // createOrder,
   getOrders,
   verifyPayment,
   changeStatus
